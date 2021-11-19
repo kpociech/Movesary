@@ -1,0 +1,41 @@
+version: '3.1'
+volumes:
+  postgres_data:
+    driver: local
+
+
+services:
+  postgres:
+    image: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: password
+    ports:
+      - 5431:5432
+  keycloak:
+    image: jboss/keycloak
+    environment:
+      DB_VENDOR: POSTGRES
+      DB_ADDR: postgres
+      DB_DATABASE: keycloak
+      DB_USER: keycloak
+      DB_PASSWORD: password
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: pass123
+    command: -Dkeycloak.profile.feature.upload_scripts=enabled
+    ports:
+      - 80:8080
+    depends_on:
+      - postgres
+  node:
+    image: node:15.14.0
+    volumes:
+      - ../movesary-frontend:/var/www
+    working_dir: /var/www
+    ports:
+      - 3000:3000
+    command: npm install && npm start
+

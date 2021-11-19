@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Movesary</title>
+</head>
+<body>
+    <h1>Hi <a th:text="${loggedInUser}">username</a>. Here are your moves:</h1>
+
+
+    <p><a th:href="@{/}">Homepage</a></p>
+    <p><a th:href="@{/logout}">Logout</a></p>
+
+
+</body>
+</html>

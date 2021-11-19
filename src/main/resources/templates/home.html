@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Movesary</title>
+</head>
+<body>
+    <h1>HomePage</h1>
+    <!-- <h2><a th:href="@{/moves}">Moves Created Today</a></h2> -->
+    <!-- <h2><a th:href="@{/users/most-skilled}">Most Skilled Users</a></h2> -->
+
+
+     <h2><a th:href="@{/tempmoves}">Moves Created Today</a></h2>
+     <h2><a th:href="@{/tempusers/most-skilled}">The Most Skilled User</a></h2>
+
+    <!-- <div th:if="${loggedInUser == ''}"> -->
+    <div th:unless="${loggedInUser}">
+        <a th:href="@{/login}">Login</a>
+    </div>
+    <!-- <div th:unless="${loggedInUser == ''}"> -->
+    <div th:if="${loggedInUser}">
+        <p>User: <a th:text="${loggedInUser}">username</a></p>
+        <a th:href="@{/logout}">Logout</a>
+    </div>
+
+
+
+
+    <!--
+    TO DZIALA
+    <p th:if="${loggedInUser}" th:text="${loggedInUser}">username</p>
+
+    TEZ DZIALA
+        <div th:if="${loggedInUser == ''}">
+        <p>byt</p>
+    </div>
+    <p th:unless="${loggedInUser == ''}" th:text="${loggedInUser}">username</p>
+    <div th:unless="${loggedInUser == ''}"><a th:href="@{/logout}">Logout</a></div>
+
+    TEZ DZIALA
+        <div th:if="${loggedInUser == ''}">
+        <p>byt</p>
+    </div>
+    <div th:unless="${loggedInUser == ''}">
+        <p th:text="${loggedInUser}">username</p>
+        <a th:href="@{/logout}">Logout</a>
+    </div>
+
+   -->
+
+</body>
+</html>

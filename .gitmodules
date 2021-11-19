@@ -1,0 +1,3 @@
+[submodule "movesary-frontend"]
+	path = movesary-frontend
+	url = https://github.com/codeclude/movesary-frontend.git
