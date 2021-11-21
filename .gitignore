@@ -5,7 +5,7 @@
 /src/test/javascript/coverage/
 /src/test/javascript/PhantomJS*/
 package-lock.json
-application.properties
+/application.properties
 
 ######################
 # Node
@@ -141,5 +141,3 @@ Desktop.ini
 # ESLint
 ######################
 .eslintcache
-
-application.properties
