@@ -1,7 +1,7 @@
 <h1 align="center">
   <a href="https://movesary.herokuapp.com"><img src="https://lh3.googleusercontent.com/pw/AM-JKLWKNMibOzQBehcW-3PoADXSBevX1XuHInx-nEWZiUPkcLA9eT6CfP-9xIhuLqxr5xDwIhXDvNhATOBBtiVBkwMCFOvb08mPM635EzaXXr6FYRVYNzao20kD_O8PBBLkDOUrmBhHfkZroRsIMZvchohG=w1126-h281-no?authuser=0" alt="Movesary" width="600"></a> 
 </h1>
-<h4 align="center">An application to store all videos related to your hobby in one place</h4>
+<h4 align="center">Movesary - Library for your moves</h4>
 <p align="center">
 Open App here: <a href="https://movesary.herokuapp.com">https://movesary.herokuapp.com</a>
 </p>
