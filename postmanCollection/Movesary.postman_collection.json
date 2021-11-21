@@ -1,0 +1,868 @@
+{
+	"info": {
+		"_postman_id": "9360fe93-3c6a-4779-b7c9-10360d98f5ff",
+		"name": "Movesary",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "token_generators",
+			"item": [
+				{
+					"name": "TOKEN_USER_ROLE__myuser",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response is ok\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var json = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Your test name\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    var token = jsonData.access_token;\r",
+									"    pm.environment.set(\"TOKEN_USER_ROLE\", token);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "{{CLIENT_ID}}",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "myuser",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "{{USER_PASSWORD}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://movesary.toadres.pl/auth/realms/Demo-Realm/protocol/openid-connect/token",
+							"protocol": "https",
+							"host": [
+								"movesary",
+								"toadres",
+								"pl"
+							],
+							"path": [
+								"auth",
+								"realms",
+								"Demo-Realm",
+								"protocol",
+								"openid-connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TOKEN_ADMIN_ROLE__myadmin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response is ok\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var json = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Your test name\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    var token = jsonData.access_token;\r",
+									"    pm.environment.set(\"TOKEN_ADMIN_ROLE\", token);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "{{CLIENT_ID}}",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "myadmin",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "{{ADMIN_PASSWORD}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://movesary.toadres.pl/auth/realms/Demo-Realm/protocol/openid-connect/token",
+							"protocol": "https",
+							"host": [
+								"movesary",
+								"toadres",
+								"pl"
+							],
+							"path": [
+								"auth",
+								"realms",
+								"Demo-Realm",
+								"protocol",
+								"openid-connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "public",
+			"item": [
+				{
+					"name": "/api/moves",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{HOST}}/api/moves",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"moves"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/moves/today",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{HOST}}/api/moves/today",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"moves",
+								"today"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/moves/by-date/{date}",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{HOST}}/api/moves/by-date/2020-11-30",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"moves",
+								"by-date",
+								"2020-11-30"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "userRole",
+			"item": [
+				{
+					"name": "api/users/username/moves",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer {{TOKEN_USER_ROLE}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{HOST}}/api/users/{{USER_NAME}}/moves",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"{{USER_NAME}}",
+								"moves"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/moves",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer {{TOKEN_USER_ROLE}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Ollie_test\",\r\n    \"description\": \"basic jump while popping the tail\",\r\n    \"videoURL\": \"https://www.youtube.com/watch?v=0is-9ltin_A\",\r\n    \"userDTO\": {\r\n        \"username\":\"myuser\",\r\n        \"fullName\":\"first1 last1\",\r\n        \"email\":\"kristofkriss94@gmail.com\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}/api/moves",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"moves"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/moves",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer {{TOKEN_USER_ROLE}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"7\",\r\n    \"name\": \"inna nazwa\",\r\n    \"description\": \"basic jump while popping the tail\",\r\n    \"videoURL\": \"https://www.youtube.com/watch?v=0is-9ltin_A\",\r\n    \"userDTO\": {\r\n        \"username\":\"myuser\",\r\n        \"fullName\":\"first1 last1\",\r\n        \"email\":\"kristofkriss94@gmail.com\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}/api/moves",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"moves"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/moves/{id}",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer {{TOKEN_USER_ROLE}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{HOST}}/api/moves/7",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"moves",
+								"7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/users/most-skilled",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer {{TOKEN_USER_ROLE}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{HOST}}/api/users/most-skilled",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"most-skilled"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/moves/{id}",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer {{TOKEN_USER_ROLE}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{HOST}}/api/moves/7",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"moves",
+								"7"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "adminRole",
+			"item": [
+				{
+					"name": "api/users/username/moves",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer {{TOKEN_ADMIN_ROLE}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{HOST}}/api/users/{{ADMIN_NAME}}/moves",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"{{ADMIN_NAME}}",
+								"moves"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/moves",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer {{TOKEN_ADMIN_ROLE}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"admin move\",\r\n    \"description\": \"its jsut an admin move\",\r\n    \"videoURL\": \"https://www.youtube.com/watch?v=0is-9ltin_A\",\r\n    \"userDTO\": {\r\n        \"username\":\"myadmin\",\r\n        \"fullName\":\"adminFirst adminLast\",\r\n        \"email\":\"kristofkriss9494@gmail.com\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}/api/moves",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"moves"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/moves/{id}",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer {{TOKEN_USER_ROLE}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{HOST}}/api/moves/7",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"moves",
+								"7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/moves/{id}",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer {{TOKEN_ADMIN_ROLE}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{HOST}}/api/moves/8",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"moves",
+								"8"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "shouldFail-ForUser",
+			"item": [
+				{
+					"name": "api/users/username/moves - attempt to access moves of user that does not exist",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer {{TOKEN_USER_ROLE}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{HOST}}/api/users/UsernameThatDoesNotExist/moves",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"UsernameThatDoesNotExist",
+								"moves"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/users/username/moves - attempt to access moves of other user",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer {{TOKEN_USER_ROLE}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{HOST}}/api/users/myadmin/moves",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"myadmin",
+								"moves"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/moves - lack of move name in body",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer {{TOKEN_USER_ROLE}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\": \"basic jump while popping the tail\",\r\n    \"videoURL\": \"https://www.youtube.com/watch?v=0is-9ltin_A\",\r\n    \"userDTO\": {\r\n        \"username\":\"myuser\",\r\n        \"fullName\":\"first1 last1\",\r\n        \"email\":\"kristofkriss94@gmail.com\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}/api/moves",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"moves"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/moves - invalid URL",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer {{TOKEN_USER_ROLE}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Ollie_test\",\r\n    \"description\": \"basic jump while popping the tail\",\r\n    \"videoURL\": \"htxxxxxtps://www.youtube.com/watch?v=0is-9ltin_A\",\r\n    \"userDTO\": {\r\n        \"username\":\"myuser\",\r\n        \"fullName\":\"first1 last1\",\r\n        \"email\":\"kristofkriss94@gmail.com\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}/api/moves",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"moves"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/moves - invalid username in UserDTO body",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer {{TOKEN_USER_ROLE}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Ollie_test\",\r\n    \"description\": \"basic jump while popping the tail\",\r\n    \"videoURL\": \"https://www.youtube.com/watch?v=0is-9ltin_A\",\r\n    \"userDTO\": {\r\n        \"username\":\"myuserXXXXX\",\r\n        \"fullName\":\"first1 last1\",\r\n        \"email\":\"kristofkriss94@gmail.com\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}/api/moves",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"moves"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/moves - incorrect body (id passed while posting new move)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer {{TOKEN_USER_ROLE}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 8,\r\n    \"name\": \"Ollie_test\",\r\n    \"description\": \"basic jump while popping the tail\",\r\n    \"videoURL\": \"https://www.youtube.com/watch?v=0is-9ltin_A\",\r\n    \"userDTO\": {\r\n        \"username\":\"myuser\",\r\n        \"fullName\":\"first1 last1\",\r\n        \"email\":\"kristofkriss94@gmail.com\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}/api/moves",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"moves"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/moves - lack of id",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer {{TOKEN_USER_ROLE}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"inna nazwa\",\r\n    \"description\": \"basic jump while popping the tail\",\r\n    \"videoURL\": \"https://www.youtube.com/watch?v=0is-9ltin_A\",\r\n    \"userDTO\": {\r\n        \"username\":\"myuser\",\r\n        \"fullName\":\"first1 last1\",\r\n        \"email\":\"kristofkriss94@gmail.com\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}/api/moves",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"moves"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/moves/{id} - incorrect move id",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer {{TOKEN_USER_ROLE}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{HOST}}/api/moves/10000",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"moves",
+								"10000"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/moves/{id} - move that does not belong to you",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer {{TOKEN_USER_ROLE}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{HOST}}/api/moves/1",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"moves",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/moves/{id} - incorrect move id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer {{TOKEN_USER_ROLE}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{HOST}}/api/moves/10000",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"moves",
+								"10000"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/moves/{id} - move that does not belong to you",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer {{TOKEN_USER_ROLE}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{HOST}}/api/moves/1",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"moves",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
