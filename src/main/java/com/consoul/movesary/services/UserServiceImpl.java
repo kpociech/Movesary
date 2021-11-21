@@ -88,21 +88,6 @@ public class UserServiceImpl implements UserService {
         return userWithMoves;
     }
 
-    @Override
-    public UserDTO checkUserExistenceInDBAfterLoginngIn() {
-        String keycloakUsername = CurrentUserProvider.getCurrentUser().getUsername();
-        UserDTO userDTO;
-
-        try {
-            userDTO = getUserDTObyUsername(keycloakUsername);
-        } catch (UserNotFoundException e) {
-            log.info("user: " + keycloakUsername + " is being added to DB");
-            userDTO = create(CurrentUserProvider.getCurrentUser());
-        }
-
-        return userDTO;
-    }
-
     public void verifyUser(String username) {
         String keycloakUsername = CurrentUserProvider.getCurrentUser().getUsername();
         if(!username.equals(keycloakUsername) && !CurrentUserProvider.isAdmin()) {

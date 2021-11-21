@@ -17,10 +17,8 @@ import java.util.Optional;
 @Component
 public class AccountChangesAspect {
 
-    UserRepository userRepository;
-    String keycloakUsername;
-    String keycloakName;
-    String keycloakEmail;
+    private final UserRepository userRepository;
+    private String keycloakUsername;
 
     public AccountChangesAspect(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -41,8 +39,8 @@ public class AccountChangesAspect {
     private boolean compare(AccessToken accessToken, Optional<User> optionalUser) {
         boolean different = false;
 
-        keycloakEmail = accessToken.getEmail();
-        keycloakName = accessToken.getName();
+        String keycloakEmail = accessToken.getEmail();
+        String keycloakName = accessToken.getName();
 
         if(optionalUser.isPresent()) {
             User user = optionalUser.get();

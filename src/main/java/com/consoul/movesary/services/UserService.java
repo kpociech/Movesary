@@ -20,7 +20,5 @@ public interface UserService {
 
     UserWithMoves getUserWithMoves(String username);
 
-    UserDTO checkUserExistenceInDBAfterLoginngIn();
-
     void verifyUser(String username);
 }

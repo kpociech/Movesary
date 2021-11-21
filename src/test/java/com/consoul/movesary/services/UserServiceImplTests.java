@@ -5,16 +5,22 @@ import com.consoul.movesary.dtos.MoveWithoutUser;
 import com.consoul.movesary.dtos.UserDTO;
 import com.consoul.movesary.dtos.UserWithMoves;
 import com.consoul.movesary.exceptions.BadRequestException;
+import com.consoul.movesary.exceptions.ForbiddenException;
 import com.consoul.movesary.exceptions.UserNotFoundException;
 import com.consoul.movesary.models.User;
 import com.consoul.movesary.repositories.UserRepository;
+import com.consoul.movesary.security.CurrentUserProvider;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,19 +34,19 @@ import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.doNothing;
 
 @ExtendWith(MockitoExtension.class)
-public class UserServiceImplTests {
+class UserServiceImplTests {
 
     @Mock
     UserRepository userRepository;
-
-    @InjectMocks
-    UserServiceImpl userServiceImpl;
 
     @Mock
     MoveService moveService;
 
     @Mock
     ModelMapper modelMapper;
+
+    @InjectMocks
+    UserServiceImpl userServiceImpl;
 
     UserDTO userDTO;
     User user;
@@ -57,7 +63,6 @@ public class UserServiceImplTests {
     @Test
     void whenUserExists_thenReturnUserByUsername() {
 
-        //SAMPLE_USERNAME can have any content - it doesnt matter here.
         given(userRepository.get(SAMPLE_USERNAME)).willReturn(userOpt);
         given(modelMapper.map(user, UserDTO.class)).willReturn(userDTO);
 
@@ -126,7 +131,6 @@ public class UserServiceImplTests {
         userWithMoves.setFullName(userDTO.getFullName());
         userWithMoves.setEmail(userDTO.getEmail());
 
-        //MoveDTO moveDTO = new MoveDTO(1L, "justName", "justDesc", userDTO);
         MoveDTO moveDTO = new MoveDTO(1L, "justName", "justDesc", SAMPLE_VIDEOO_URL, userDTO);
         MoveWithoutUser moveWithoutUser = new MoveWithoutUser(1L, "justName", "justDesc", SAMPLE_VIDEOO_URL);
 
@@ -178,11 +182,12 @@ public class UserServiceImplTests {
     void whenUserAlreadyExists_thenFailToCreateUser() {
 
         given(modelMapper.map(userDTO, User.class)).willReturn(user);
-        given(userRepository.create(user)).willThrow(new BadRequestException("Username " + user.getUsername() + " already exists"));
+        given(userRepository.create(user)).willThrow(new DataIntegrityViolationException(""));
 
-        assertThrows(BadRequestException.class, () -> userServiceImpl.create(userDTO));
+        BadRequestException badRequestException = assertThrows(BadRequestException.class, () -> userServiceImpl.create(userDTO));
+
+        assertEquals("Username=" + SAMPLE_USERNAME + " already exists", badRequestException.getMessage());
         then(userRepository).should().create(user);
-
     }
 
     @Test
@@ -190,7 +195,6 @@ public class UserServiceImplTests {
 
         given(userRepository.get(SAMPLE_USERNAME)).willReturn(userOpt);
 
-        //given(modelMapper.map(userDTO, user)).;
         doNothing().when(modelMapper).map(userDTO, user);
         given(userRepository.update(user)).willReturn(user);
         given(modelMapper.map(user, UserDTO.class)).willReturn(userDTO);
@@ -214,7 +218,9 @@ public class UserServiceImplTests {
 
     @Test
     void whenUserExists_thenDeleteUser() {
-        userRepository.delete(user);
+        given(userRepository.get(SAMPLE_USERNAME)).willReturn(Optional.of(user));
+
+        userServiceImpl.delete(SAMPLE_USERNAME);
 
         then(userRepository).should().delete(user);
     }
@@ -228,6 +234,26 @@ public class UserServiceImplTests {
 
         assertEquals(SAMPLE_USERNAME + " not found", userNotFoundException.getMessage());
         then(userRepository).should().get(SAMPLE_USERNAME);
+    }
+
+    @Test
+    void whenInvalidUser_thenVerifyUser() {
+        try (MockedStatic<CurrentUserProvider> utilities = Mockito.mockStatic(CurrentUserProvider.class)) {
+            utilities.when(CurrentUserProvider::getCurrentUser).thenReturn(userDTO);
+            Assertions.assertEquals(SAMPLE_USERNAME, CurrentUserProvider.getCurrentUser().getUsername());
+        }
+    }
+
+    @Test
+    void whenInvalidUser_thenFailToVerifyUser() {
+        try (MockedStatic<CurrentUserProvider> utilities = Mockito.mockStatic(CurrentUserProvider.class)) {
+            String wrongUsername = "wrongUserName";
+            utilities.when(CurrentUserProvider::getCurrentUser).thenReturn(userDTO);
+            utilities.when(CurrentUserProvider::isAdmin).thenReturn(false);
+
+            assertNotEquals(userDTO.getUsername(), wrongUsername);
+            assertThrows(ForbiddenException.class, () -> userServiceImpl.verifyUser(wrongUsername));
+        }
     }
 
 }

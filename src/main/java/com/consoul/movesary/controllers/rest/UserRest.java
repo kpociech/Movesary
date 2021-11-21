@@ -3,10 +3,8 @@ package com.consoul.movesary.controllers.rest;
 import com.consoul.movesary.dtos.UserDTO;
 import com.consoul.movesary.dtos.UserWithMoves;
 import com.consoul.movesary.exceptions.BadRequestException;
-import com.consoul.movesary.services.MoveService;
 import com.consoul.movesary.services.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Role;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,12 +16,10 @@ import java.util.List;
 @RequestMapping("/api/users")
 public class UserRest {
 
-    final private UserService userService;
-    final private MoveService moveService;
+    private final UserService userService;
 
-    public UserRest(UserService userService, MoveService moveService) {
+    public UserRest(UserService userService) {
         this.userService = userService;
-        this.moveService = moveService;
     }
 
     @RolesAllowed("admin")
@@ -52,12 +48,6 @@ public class UserRest {
     @GetMapping("/most-skilled")
     public UserDTO getMostSkilledUser() {
         return userService.getUserWithMostMoves();
-    }
-
-    @RolesAllowed("user")
-    @GetMapping("/loggedIn")
-    public UserDTO getUserDTOAfterLoggingIn() {
-        return userService.checkUserExistenceInDBAfterLoginngIn();
     }
 
     @RolesAllowed("admin")
